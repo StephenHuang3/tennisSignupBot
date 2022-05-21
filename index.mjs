@@ -1,11 +1,9 @@
 import puppeteer from 'puppeteer';
 import sendemail from "./email.mjs";
-import select from 'puppeteer-select';
-
 import 'dotenv/config';
 
 (async () => {
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://vs2.clubinterconnect.com/wotc/home/login.do");
 
@@ -48,35 +46,15 @@ import 'dotenv/config';
             returnPage(page);
         }
     }
-    
-    // try{
-    //     //select court
-    //     courtBook(browser, page, '5', '#calendar > div > table > tbody > tr:nth-child(29) > td:nth-child(5) > a', 'Daniel Huang');
-    //     return
-    // } catch(e){
-    //     returnPage(page);
-    // }
 
-    // try{
-    //     //select court
-    //     courtBook(browser, page, '4', '#calendar > div > table > tbody > tr:nth-child(29) > td:nth-child(4) > a', 'Daniel Huang');
-    //     return
-    // } catch(e){
-    //     returnPage(page);
-    // }
-
-    // try{
-    //     //select court
-    //     courtBook(browser, page, '3', '#calendar > div > table > tbody > tr:nth-child(29) > td:nth-child(3) > a', 'Daniel Huang');
-    //     return
-    // } catch(e){
-    //     returnPage(page);
-    // }
-
+    // close page
     await browser.close();
+
+    //send error email
     sendemail('stephen382012@hotmail.com', 'error', 'error', true);
 })();
 
+//court booking function
 async function courtBook(browser, page, courtNumber, courtID, name){
     await page.waitForSelector(courtID);
     await page.click(courtID);
@@ -92,6 +70,7 @@ async function courtBook(browser, page, courtNumber, courtID, name){
     await browser.close();
 }
 
+//return in case of error funciton
 async function returnPage(page){
     await page.waitForSelector('#smarteform > p > input');
     await page.click('#smarteform > p > input');
