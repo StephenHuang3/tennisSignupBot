@@ -65,7 +65,6 @@ async function courtBook(browser, page, courtNumber, courtID, name){
 
     //book court
     await page.click('#final');
-    await page.waitForNavigation();
     sendemail('stephen382012@hotmail.com',courtNumber,'8:30pm', false);
     await browser.close();
 }
