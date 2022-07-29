@@ -1,9 +1,25 @@
 import puppeteer from 'puppeteer';
 import sendemail from "./email.mjs";
+import express from "espress";
 import 'dotenv/config';
 
+const app = express();
+
+const port = process.env.PORT || 8080;
+
+
+app.listen(port, () =>
+  console.log(`Example app listening https://localhost:${port}`),
+);
+
 (async () => {
-    const browser = await puppeteer.launch();
+    //const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
+    });
     const page = await browser.newPage();
     await page.goto("https://vs2.clubinterconnect.com/wotc/home/login.do");
 
